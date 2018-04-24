@@ -1,0 +1,7 @@
+.*
+/scripts
+/sql
+docker-compose.yml
+Dockerfile
+Makefile
+*.md

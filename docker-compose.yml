@@ -1,0 +1,31 @@
+version: "3"
+volumes:
+  mysqldata:
+services:
+  mysql:
+    image: mysql:latest
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+      - mysqldata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-"my_database"}
+      - MYSQL_USER=${MYSQL_USER:-"user"}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"password"}
+      - MYSQL_RANDOM_ROOT_PASSWORD
+    ports:
+      - "3306:3306"
+
+  php:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mysql
+    volumes:
+      - ./:/project
+    user: 1000:1000
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-"my_database"}
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=${MYSQL_USER:-"user"}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"password"}
