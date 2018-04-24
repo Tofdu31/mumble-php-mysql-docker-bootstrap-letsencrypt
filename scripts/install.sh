@@ -15,6 +15,11 @@ if [ ! -f $PROJECT_DIR/.env ]; then
     cp $PROJECT_DIR/.env.dist $PROJECT_DIR/.env
 fi
 
+# Create volume for the composer's cache
+if [ $(docker volume ls | grep -w composer-cache -c) -eq 0 ]; then
+    docker volume create composer-cache > /dev/null
+fi
+
 # Initialize composer
 if [ ! -f $PROJECT_DIR/composer.json ]; then
     ${__COMPOSER_CMD} init

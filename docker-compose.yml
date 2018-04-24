@@ -1,6 +1,9 @@
 version: "3"
 volumes:
   mysqldata:
+  composer-cache:
+    external: true
+
 services:
   mysql:
     image: mysql:latest
@@ -23,7 +26,7 @@ services:
       - mysql
     volumes:
       - ./:/project
-    user: 1000:1000
+      - composer-cache:/tmp/composer
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE:-"my_database"}
       - MYSQL_HOST=mysql

@@ -1,19 +1,14 @@
 .PHONY: build composer composer-install composer-update
 
--include .env
-
 __USER=$(shell id -u):$(shell id -g)
 __COMPOSER_CMD=docker-compose run --rm --no-deps -u ${__USER} php composer
 
 default: install up
 
-build:
-	@docker build -t ${DOCKER_IMAGE} .
-
 composer:
 	@${__COMPOSER_CMD} ${CMD}
 
-composer-install:
+composer-install: install
 	@${__COMPOSER_CMD} install
 
 composer-update:
@@ -21,6 +16,9 @@ composer-update:
 
 up:
 	@docker-compose up
+
+down:
+	@docker-compose down -v --remove-orphans
 
 install:
 	@./scripts/install.sh
