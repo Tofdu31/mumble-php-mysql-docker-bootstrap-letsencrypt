@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 __USER="$(id -u):$(id -g)"
-__COMPOSER_CMD="docker-compose run --rm --no-depts -u ${__USER} php composer"
+__COMPOSER_CMD="docker-compose run --rm --no-deps -u ${__USER} php composer"
 
 # Identify project root directory
 if [ $(git status > /dev/null 2>&1) ] ; then
@@ -18,6 +18,4 @@ fi
 # Initialize composer
 if [ ! -f $PROJECT_DIR/composer.json ]; then
     ${__COMPOSER_CMD} init
-else
-    ${__COMPOSER_CMD} install
 fi

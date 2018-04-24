@@ -2,32 +2,25 @@
 
 -include .env
 
-UID=$(shell id -u)
-GID=$(shell id -g)
+__USER=$(shell id -u):$(shell id -g)
+__COMPOSER_CMD=docker-compose run --rm --no-deps -u ${__USER} php composer
 
-DOCKER_IMAGE?="traffic-rer"
-DOCKER_CMD=docker run --rm -it -v `pwd`:/project -u ${UID}:${GID} $(DOCKER_IMAGE)
-COMPOSER_CMD=docker run --rm -it -v `pwd`:/project -u ${UID}:${GID} --entrypoint composer $(DOCKER_IMAGE)
-
-default: up
+default: install up
 
 build:
 	@docker build -t ${DOCKER_IMAGE} .
 
 composer:
-	@${DOCKER_CMD} composer ${CMD}
+	@${__COMPOSER_CMD} ${CMD}
 
 composer-install:
-	@${DOCKER_CMD} composer install
+	@${__COMPOSER_CMD} install
 
 composer-update:
-	@${COMPOSER_CMD} update
-
-run:
-	@${DOCKER_CMD}
+	@${__COMPOSER_CMD} update
 
 up:
-	docker-compose up
+	@docker-compose up
 
 install:
 	@./scripts/install.sh
