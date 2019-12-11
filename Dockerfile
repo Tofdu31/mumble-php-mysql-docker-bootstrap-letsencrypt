@@ -1,3 +1,24 @@
+ARG MYSQL_VERSION=latest
+FROM mysql:${MYSQL_VERSION}
+
+LABEL maintainer="Christophe Laborde <christophe.laborde@nbility.fr>"
+
+#####################################
+# Set Timezone
+#####################################
+
+ARG TZ=UTC
+ENV TZ ${TZ}
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && chown -R mysql:root /var/lib/mysql/
+
+COPY sql/mysql.cnf /etc/mysql/conf.d/mysql.cnf
+
+RUN chmod 0444 /etc/mysql/conf.d/mysql.cnf
+
+CMD ["mysqld"]
+
+EXPOSE 3306
+
 FROM php:alpine
 LABEL maintainer="Julien MERCIER <devci@j3ck3l.me>"
 # This Dockerfile build a php image with composer included
