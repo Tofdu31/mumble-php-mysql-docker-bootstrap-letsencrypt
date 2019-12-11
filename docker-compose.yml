@@ -11,6 +11,7 @@ services:
     container_name: ${CONTAINER_MYSQL_DB}    
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
+      - ./mysql.cnf:/etc/mysql/conf.d/mysql.cnf
       - mysqldata:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
