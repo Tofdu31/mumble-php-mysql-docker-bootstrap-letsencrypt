@@ -3,10 +3,13 @@
 # For explanations see
 # http://dev.mysql.com/doc/mysql/en/server-system-variables.html
 # Maintener : Christophe Laborde - christophe.laborde@nbility.fr
+
 [client]
 default-character-set = utf8mb4
+
 [mysql]
 default-character-set = utf8mb4
+
 [mysqld]
 character-set-client-handshake = FALSE
 character-set-server = utf8mb4
