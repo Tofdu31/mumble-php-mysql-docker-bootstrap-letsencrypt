@@ -26,9 +26,19 @@ LABEL maintainer="Julien MERCIER <devci@j3ck3l.me>"
 #
 # Reminder : It's not recommanded to have composer installed in container for production
 # as this is required for developpement only.
-RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/863c57de1807c99d984f7b56f0ea56ebd7e5045b/web/installer -O - -q | php -- --quiet &&\
-    mv composer.phar /usr/local/bin/composer && \
-    composer self-update
+
+# Composer Install version : latest
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer --version
+
+# Remove the older versions and install the latest version of Composer
+RUN rm -rf /usr/local/bin/composer
+RUN curl -s https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
+RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/863c57de1807c99d984f7b56f0ea56ebd7e5045b/web/installer | php
+RUN composer self-update
 
 # Define composer cache directory
 RUN mkdir -p /tmp/composer && chmod 777 /tmp/composer
