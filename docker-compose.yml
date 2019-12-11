@@ -32,10 +32,10 @@ services:
       - ./:/project
       - composer-cache:/tmp/composer
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-"my_database"}
-      - MYSQL_HOST=mysql
-      - MYSQL_USER=${MYSQL_USER:-"user"}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"password"}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-"PUSHTOTALK"}
+      - MYSQL_HOST=mumble_mysql
+      - MYSQL_USER=${MYSQL_USER:-"PTT_NBILITY"}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"PTT@31"}
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
