@@ -17,7 +17,6 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
-#      - MYSQL_RANDOM_ROOT_PASSWORD
       - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
     ports:
       - "3306:3306"
@@ -34,10 +33,14 @@ services:
       - ./:/project
       - composer-cache:/tmp/composer
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-"PUSHTOTALK"}
-      - MYSQL_HOST=mumble_mysql
-      - MYSQL_USER=${MYSQL_USER:-"PTT_NBILITY"}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"PTT@31"}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
+      - MYSQL_HOST=mumble_mysql      
+#      - MYSQL_DATABASE=${MYSQL_DATABASE:-"PUSHTOTALK"}
+#      - MYSQL_USER=${MYSQL_USER:-"PTT_NBILITY"}
+#      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"PTT@31"}
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
