@@ -5,9 +5,10 @@ volumes:
     external: true
 
 services:
-  mysql:
+  mumble_mysql:
     image: mysql:latest
-    restart: always    
+    restart: always
+    container_name: ${CONTAINER_MYSQL_DB}    
     volumes:
       - ./sql:/docker-entrypoint-initdb.d/
       - mysqldata:/var/lib/mysql
@@ -23,9 +24,10 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    container_name: ${CONTAINER_PHP}
     restart: always    
     depends_on:
-      - mysql
+      - mumble_mysql
     volumes:
       - ./:/project
       - composer-cache:/tmp/composer
@@ -34,3 +36,31 @@ services:
       - MYSQL_HOST=mysql
       - MYSQL_USER=${MYSQL_USER:-"user"}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"password"}
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ${CONTAINER_MYSQL_PHPMYADMIN}
+    environment:
+#     Si on active PMA_ARBITRARY a 1 cela permet d'avoir le champ server pour indiquer une adresse
+#     - PMA_ARBITRARY=1
+     - PMA_HOST=mumble_mysql
+     - PMA_PORT=3306
+#     - PMA_USER=pushtotalk
+#     - PMA_PASSWORD=PTT@31
+     - VIRTUAL_HOST= ${DOMAINS_PHPMYADMIN}
+     - LETSENCRYPT_HOST= ${DOMAINS_PHPMYADMIN}
+     - LETSENCRYPT_EMAIL= ${LETSENCRYPT_EMAIL}
+    restart: always
+    ports:
+     - 5269:80
+    links:
+     - mumble_mysql
+    depends_on:
+     - mumble_mysql
+    volumes:
+     - ./sessions
+
+networks:
+    default:
+      external:
+        name: webproxy
