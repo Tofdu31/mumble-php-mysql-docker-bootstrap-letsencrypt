@@ -17,7 +17,7 @@ services:
       - MYSQL_USER=${MYSQL_USER:-"PTT_NBILITY"}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-"PTT@31"}
 #      - MYSQL_RANDOM_ROOT_PASSWORD
-      - MYSQL_ROOT_PASSWORD: pushtotalk@superadmin
+        MYSQL_ROOT_PASSWORD: pushtotalk@superadmin
     ports:
       - "3306:3306"
 
