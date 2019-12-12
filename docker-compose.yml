@@ -14,9 +14,9 @@ services:
       - ./mysql.cnf:/etc/mysql/conf.d/mysql.cnf
       - mysqldata:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
+#      - MYSQL_DATABASE=${MYSQL_DATABASE}
+#      - MYSQL_USER=${MYSQL_USER}
+#      - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
     ports:
       - "3306:3306"
